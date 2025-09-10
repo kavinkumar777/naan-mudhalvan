@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kavin Kumar | Game Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-bg: #0a0a0a;
+      --secondary-bg: #1a1a1a;
+      --accent-bg: #2a2a2a;
+      --primary-color: #00ffff;
+      --secondary-color: #ff6b35;
+      --text-color: #ffffff;
+      --text-muted: #b0b0b0;
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--primary-bg);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.05;
+    }
+
+    .bg-animation::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, var(--primary-color) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, var(--secondary-color) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, #ff6b35 0%, transparent 50%);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
+      padding: 60px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    header h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 900;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 20px var(--primary-color)); }
+      to { filter: drop-shadow(0 0 30px var(--secondary-color)); }
+    }
+
+    header p {
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      padding: 1rem 0;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    nav a:hover {
+      background: rgba(0, 255, 255, 0.1);
+      color: var(--primary-color);
+      transform: translateY(-2px);
+    }
+
+    /* Sections */
+    section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    section:nth-child(even) {
+      animation-delay: 0.2s;
+    }
+
+    section:nth-child(odd) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      font-family: 'Orbitron', monospace;
+      color: var(--primary-color);
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--gradient-3);
+      border-radius: 2px;
+    }
+
+    /* About section */
+    .about {
+      text-align: center;
+    }
+
+    .about p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* Skills */
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .skill-card {
+      background: var(--secondary-bg);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .skill-card:hover::before {
+      left: 100%;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--primary-color);
+      box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+    }
+
+    .skill-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--secondary-color);
+    }
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .project {
+      background: var(--secondary-bg);
+      padding: 2rem;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--accent-bg);
+    }
+
+    .project::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--gradient-1);
+    }
+
+    .project:nth-child(2)::before {
+      background: var(--gradient-2);
+    }
+
+    .project:nth-child(3)::before {
+      background: var(--gradient-3);
+    }
+
+    .project:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .project h3 {
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-family: 'Orbitron', monospace;
+    }
+
+    .project p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tag {
+      background: rgba(0, 255, 255, 0.1);
+      color: var(--primary-color);
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(0, 255, 255, 0.3);
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--gradient-3);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Contact */
+    .contact {
+      text-align: center;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .contact-card {
+      background: var(--secondary-bg);
+      padding: 2rem;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+      background: var(--accent-bg);
+    }
+
+    .contact-icon {
+      font-size: 2rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+    }
+
+    .contact-card a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px;
+      background: var(--secondary-bg);
+      color: var(--text-muted);
+      margin-top: 4rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      section {
+        padding: 40px 15px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-links {
+        flex-direction: column;
+      }
+    }
+
+    /* Scroll animations */
+    .scroll-fade {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .scroll-fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Loading animation */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary-bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 3px solid var(--accent-bg);
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader"></div>
+  </div>
+
+  <div class="bg-animation"></div>
+
+  <header>
+    <h1>Kavin Kumar</h1>
+    <p>Game Developer | Unity • Unreal Engine • C# • C++</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="about" class="about scroll-fade">
+    <h2>About Me</h2>
+    <p>Hello! I'm Kavin Kumar, a passionate game developer with experience in building immersive gaming experiences using Unity and Unreal Engine. I love creating games that are not only fun but also technically impressive, pushing the boundaries of what's possible in interactive entertainment.</p>
+    
+    <div class="skills">
+      <div class="skill-card">
+        <div class="skill-icon">🎮</div>
+        <h3>Game Development</h3>
+        <p>Expert in Unity & Unreal Engine with 5+ years of experience</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">💻</div>
+        <h3>Programming</h3>
+        <p>Proficient in C#, C++, and game scripting languages</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🎨</div>
+        <h3>Game Design</h3>
+        <p>Creative gameplay mechanics and user experience design</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="projects scroll-fade">
+    <h2>Featured Projects</h2>
+    
+    <div class="projects-grid">
+      <div class="project">
+        <h3>⚔️ Battle Arena</h3>
+        <div class="project-tags">
+          <span class="tag">Unity</span>
+          <span class="tag">Photon</span>
+          <span class="tag">Multiplayer</span>
+          <span class="tag">C#</span>
+        </div>
+        <p>A fast-paced 3D multiplayer battle game built using Unity and Photon Networking. Players fight in an arena with real-time combat mechanics, featuring dynamic weapon systems and competitive rankings.</p>
+        <div class="project-links">
+          <a href="#" class="btn btn-primary">🎮 Play Now</a>
+          <a href="#" class="btn btn-secondary">📄 Learn More</a>
+        </div>
+      </div>
+
+      <div class="project">
+        <h3>🌌 Space Explorer</h3>
+        <div class="project-tags">
+          <span class="tag">Unreal Engine</span>
+          <span class="tag">C++</span>
+          <span class="tag">Adventure</span>
+          <span class="tag">3D</span>
+        </div>
+        <p>A single-player adventure game made in Unreal Engine where players explore a mysterious galaxy, solve complex puzzles, and discover hidden planets with unique ecosystems.</p>
+        <div class="project-links">
+          <a href="#" class="btn btn-primary">🚀 Explore</a>
+          <a href="#" class="btn btn-secondary">📱 Download</a>
+        </div>
+      </div>
+
+      <div class="project">
+        <h3>🏁 Speed Rush</h3>
+        <div class="project-tags">
+          <span class="tag">Unity</span>
+          <span class="tag">Mobile</span>
+          <span class="tag">Racing</span>
+          <span class="tag">Android</span>
+        </div>
+        <p>Arcade-style racing game created in Unity. Focused on speed, stunts, and challenging levels. Features custom physics engine and procedural track generation. Available on Android.</p>
+        <div class="project-links">
+          <a href="#" class="btn btn-primary">📱 Get App</a>
+          <a href="#" class="btn btn-secondary">🎥 Trailer</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact scroll-fade">
+    <h2>Get In Touch</h2>
+    <p>Ready to create something amazing together? Let's connect!</p>
+    
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-icon">📧</div>
+        <h3>Email</h3>
+        <a href="mailto:kavinkumar@gamedev.com">kavinkumar@gamedev.com</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">💼</div>
+        <h3>GitHub</h3>
+        <a href="https://github.com/kavinkumar" target="_blank">github.com/kavinkumar</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">🔗</div>
+        <h3>LinkedIn</h3>
+        <a href="https://linkedin.com/in/kavinkumar" target="_blank">linkedin.com/in/kavinkumar</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Kavin Kumar. All rights reserved. Built with passion for gaming.</p>
+  </footer>
+
+  <script>
+    // Loading screen
+    window.addEventListener('load', function() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+      }, 1500);
+    });
+
+    // Smooth scrolling for navigation
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
+          targetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all scroll-fade elements
+    document.querySelectorAll('.scroll-fade').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Add parallax effect to background
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const parallax = document.querySelector('.bg-animation');
+      const speed = scrolled * 0.5;
+      parallax.style.transform = `translateY(${speed}px)`;
+    });
+
+    // Add typing effect to header
+    function typeWriter(element, text, speed = 50) {
+      let i = 0;
+      element.innerHTML = '';
+      
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        }
+      }
+      type();
+    }
+
+    // Initialize typing effect after loading
+    setTimeout(() => {
+      const headerTitle = document.querySelector('header h1');
+      const originalText = headerTitle.textContent;
+      typeWriter(headerTitle, originalText, 100);
+    }, 2000);
+
+    // Add hover effects to project cards
+    document.querySelectorAll('.project').forEach(project => {
+      project.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-10px) scale(1.02)';
+      });
+      
+      project.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+
+    // Add click effects to buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        ripple.style.position = 'absolute';
+        ripple.style.borderRadius = '50%';
+        ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+        ripple.style.transform = 'scale(0)';
+        ripple.style.animation = 'ripple 0.6s linear';
+        ripple.style.left = (e.clientX - this.offsetLeft) + 'px';
+        ripple.style.top = (e.clientY - this.offsetTop) + 'px';
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+
+    // Add CSS for ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ripple {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+      .btn {
+        position: relative;
+        overflow: hidden;
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
